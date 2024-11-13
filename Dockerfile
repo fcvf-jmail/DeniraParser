@@ -11,10 +11,6 @@ RUN dotnet restore
 # Копируем все остальные файлы
 COPY . ./
 
-COPY ./chatId.txt /app/chatId.txt
-COPY ./.env /app/.env
-COPY ./lastNearestDate.txt /app/lastNearestDate.txt
-
 # Собираем проект
 RUN dotnet publish -c Release -o /app/publish
 
@@ -26,8 +22,6 @@ WORKDIR /app
 
 # Копируем собранное приложение из стадии build
 COPY --from=build /app/publish .
-
-RUN touch /app/chatId.txt /app/.env /app/lastNearestDate.txt
 
 # Указываем команду для запуска приложения
 ENTRYPOINT ["dotnet", "DeniraParser.dll"]
