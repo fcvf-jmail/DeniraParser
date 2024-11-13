@@ -5,6 +5,7 @@
 
 # User-specific files
 lastNearestDate.txt
+chatId.txt
 .env
 *.suo
 *.user
