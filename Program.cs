@@ -1,8 +1,12 @@
 ﻿using DeniraParser;
 using dotenv.net;
 
-DotEnv.Load(new DotEnvOptions(envFilePaths: [Path.Combine(Directory.GetCurrentDirectory(), ".env")]));
-var telegramSender = new TelegramMessageSender(DotEnv.Read()["botToken"]);
+string dotenvPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+DotEnv.Load(new DotEnvOptions(envFilePaths: [dotenvPath]));
+
+(TelegramHandler telegramHandler, string botUsername) = await ConfigManager.ConfigureBotToken();
+
+string chatId = await ConfigManager.ConfigureChatId(telegramHandler, botUsername);
 
 Func<Task> parseDenira = async() => 
 {
@@ -12,12 +16,11 @@ Func<Task> parseDenira = async() =>
 
     if (lastNearestDate > nearestParsedDate)
     {
-        await telegramSender.SendMessageAsync(chatId: 1386450473, message: $"Появилась свободная запись на {nearestParsedDate}");
+        await telegramHandler.SendMessageAsync(chatId: "1386450473", message: $"Появилась свободная запись на {nearestParsedDate}");
         LastNearestDateTxtHandler.Rewrite(nearestParsedDate.ToString("yyyy-MM-dd"));
     }
 };
 
-// Создаем сервис с переданным кодом
 var recurringTaskService = new RecurringTaskService(
     taskToExecute: async () => await parseDenira(),
     interval: TimeSpan.FromSeconds(60)
@@ -25,4 +28,3 @@ var recurringTaskService = new RecurringTaskService(
 
 var cancellationTokenSource = new CancellationTokenSource();
 await recurringTaskService.StartAsync(cancellationTokenSource.Token);
-

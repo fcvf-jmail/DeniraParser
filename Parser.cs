@@ -9,7 +9,7 @@ public class Parser
     public static async Task<DateOnly> ParseNearestDate()
     {
         DotEnv.Load(new DotEnvOptions(envFilePaths: [Path.Combine(Directory.GetCurrentDirectory(), ".env")]));
-        var telegramSender = new TelegramMessageSender(DotEnv.Read()["botToken"]);
+        var telegramSender = new TelegramHandler(DotEnv.Read()["botToken"]);
 
         string todaysDate = DateTime.Today.ToString("yyyy-MM-dd");
 
