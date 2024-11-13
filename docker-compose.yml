@@ -3,8 +3,7 @@ version: '3.8'
 services:
   denira-parser:
     build:
-      context: .  # Путь к Dockerfile
-      dockerfile: Dockerfile  # Можно опустить, если Dockerfile находится в корне
+      context: .
     image: denira-parser:latest
     container_name: denira-parser
     stdin_open: true
@@ -12,4 +11,4 @@ services:
     volumes:
       - ./chatId.txt:/app/chatId.txt
       - ./.env:/app/.env 
-      - ./lastNearestDate.txt:/app/lastNearestDate.txt  # Сохранение lastNearestDate.txt
+      - ./lastNearestDate.txt:/app/lastNearestDate.txt
