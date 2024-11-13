@@ -23,5 +23,7 @@ WORKDIR /app
 # Копируем собранное приложение из стадии build
 COPY --from=build /app/publish .
 
+RUN touch /app/lastNearestDate.txt /app/chatId.txt /app/.env && chmod 666 /app/lastNearestDate.txt /app/chatId.txt /app/.env
+
 # Указываем команду для запуска приложения
 ENTRYPOINT ["dotnet", "DeniraParser.dll"]
