@@ -16,7 +16,7 @@ Func<Task> parseDenira = async() =>
 
     if (lastNearestDate > nearestParsedDate)
     {
-        var nearestParsedDateStr = nearestParsedDate.ToString("dd.MM.yyyy");
+        var nearestParsedDateStr = $"{nearestParsedDate.Day}.{nearestParsedDate.Month}.{nearestParsedDate.Year}";
         await telegramHandler.SendMessageAsync(chatId: "1386450473", message: $"Появилась свободная запись на {nearestParsedDateStr}");
         LastNearestDateTxtHandler.Rewrite(nearestParsedDate.ToString("yyyy-MM-dd"));
     }
