@@ -15,6 +15,15 @@ if [ -n "$CONTAINER_ID" ]; then
   docker rm "$CONTAINER_ID"
 fi
 
+# Проверяем, существует ли образ denira-parser:latest, и удаляем его, если он есть
+IMAGE_ID=$(docker images -q denira-parser:latest)
+if [ -n "$IMAGE_ID" ]; then
+  echo "Образ denira-parser:latest найден. Удаляем его..."
+  docker image rm -f "$IMAGE_ID"
+else
+  echo "Образ denira-parser:latest не найден, пропускаем удаление."
+fi
+
 # Запускаем Docker Compose с командой для сервиса denira-parser
 docker-compose run --rm denira-parser
 
