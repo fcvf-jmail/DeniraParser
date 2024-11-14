@@ -13,7 +13,7 @@ public class RecurringTaskService (Func<Task> taskToExecute, TimeSpan interval)
             try
             {
                 await _taskToExecute();
-                Console.WriteLine($"Исполнил задачу {DateTime.Now}");
+                Console.WriteLine($"Исполнил задачу {DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}");
             }
             catch (Exception ex)
             {
